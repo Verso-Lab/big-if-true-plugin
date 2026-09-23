@@ -1,0 +1,20 @@
+{
+  "name": "big-if-true",
+  "version": "0.7.0",
+  "description": "Rigorous, claim-by-claim fact-checking: every checkable claim in a text, verified against primary records and the live web, delivered as an annotated report with sources.",
+  "author": {
+    "name": "Verso",
+    "email": "team@verso.ink",
+    "url": "https://verso.ink"
+  },
+  "homepage": "https://verso.ink/big-if-true",
+  "repository": "https://github.com/Verso-Lab/big-if-true-plugin",
+  "license": "MIT",
+  "keywords": [
+    "fact-checking",
+    "journalism",
+    "verification",
+    "newsroom",
+    "editing"
+  ]
+}

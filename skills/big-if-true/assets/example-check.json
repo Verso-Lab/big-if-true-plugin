@@ -1,0 +1,84 @@
+{
+  "page_title": "Riverton Plant, Checked",
+  "title": "Plant expansion brings new jobs to Riverton",
+  "source": "Test Outlet",
+  "byline": "A. Writer",
+  "published": "Aug 1, 2026",
+  "checked": "Aug 30, 2026",
+  "refs": {
+    "reg": [
+      "State Business Registry",
+      "https://example.com/registry"
+    ],
+    "daily": [
+      "Regional daily",
+      "https://example.com/daily"
+    ],
+    "census": [
+      "US Census",
+      "https://example.com/census"
+    ]
+  },
+  "claims": [
+    {
+      "verdict": "s",
+      "claim": "The plant opened in 1998.",
+      "why": "The state registry lists the 1998 opening.",
+      "refs": [
+        "reg"
+      ],
+      "quote": "opened in 1998"
+    },
+    {
+      "verdict": "r",
+      "claim": "The plant employs 1,200 people.",
+      "why": "Current filings put the workforce at about 900, not 1,200.",
+      "refs": [
+        "reg",
+        "daily"
+      ],
+      "quote": "employs 1,200 people"
+    },
+    {
+      "verdict": "s",
+      "claim": "Riverton has about 40,000 residents.",
+      "why": "Census data shows 40,213.",
+      "refs": [
+        "census"
+      ],
+      "quote": "a town of 40,000"
+    },
+    {
+      "verdict": "c",
+      "claim": "Dana Reyes said the company never tested the product on animals.",
+      "why": "The quote appears only in this piece; no independent record was found.",
+      "refs": [],
+      "quote": "“We never tested this product on animals,” said Orion Labs spokesperson Dana Reyes."
+    },
+    {
+      "verdict": "s",
+      "claim": "Dana Reyes is a spokesperson for Orion Labs.",
+      "why": "Confirmed by the company's press page and prior coverage.",
+      "refs": [
+        "daily"
+      ],
+      "quote": "Orion Labs spokesperson Dana Reyes"
+    },
+    {
+      "verdict": "s",
+      "claim": "Orion Labs reported revenues of $80 million last year.",
+      "why": "Matches the figure in the annual report.",
+      "refs": [
+        "daily"
+      ],
+      "quote": "revenues of $80 million last year"
+    },
+    {
+      "verdict": "c",
+      "claim": "The expansion will add 300 jobs by 2027.",
+      "why": "A forward-looking figure from local officials; nothing independent confirms it yet.",
+      "refs": [],
+      "quote": "add 300 jobs by 2027"
+    }
+  ]
+}

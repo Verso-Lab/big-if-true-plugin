@@ -1,0 +1,16 @@
+{
+  "name": "verso",
+  "description": "Plugins by Verso, an AI studio for media.",
+  "owner": {
+    "name": "Verso",
+    "email": "team@verso.ink",
+    "url": "https://verso.ink"
+  },
+  "plugins": [
+    {
+      "name": "big-if-true",
+      "source": "./",
+      "version": "0.7.0"
+    }
+  ]
+}
