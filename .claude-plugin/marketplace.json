@@ -9,6 +9,7 @@
   "plugins": [
     {
       "name": "big-if-true",
+      "displayName": "Big If True",
       "source": "./",
       "version": "0.7.0"
     }

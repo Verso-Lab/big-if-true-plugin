@@ -1,5 +1,6 @@
 {
   "name": "big-if-true",
+  "displayName": "Big If True",
   "version": "0.7.0",
   "description": "Rigorous, claim-by-claim fact-checking: every checkable claim in a text, verified against primary records and the live web, delivered as an annotated report with sources.",
   "author": {
