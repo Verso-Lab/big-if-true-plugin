@@ -13,17 +13,17 @@ More, including how we tested it: [verso.ink/big-if-true](https://verso.ink/big-
 
 ## Install
 
-**Claude Code and Cowork**: from the Claude plugin directory, or add this
-repository as a marketplace:
+**Claude app and Cowork**: find Big If True in the plugin directory under
+Customize → Plugins → Browse plugins, or
+[add it from this repository](https://claude.ai/customize/plugins/new?marketplace=Verso-Lab/big-if-true-plugin&plugin=big-if-true):
+Sync, then Add next to Big If True.
+
+**Claude Code**: add this repository as a marketplace:
 
 ```
 /plugin marketplace add Verso-Lab/big-if-true-plugin
 /plugin install big-if-true@verso
 ```
-
-**Claude app (chat)**: download the skill from
-[verso.ink/big-if-true](https://verso.ink/big-if-true) and upload it under
-Settings → Capabilities → Skills.
 
 Then ask Claude to fact-check something. The plugin needs web search; with
 code execution it builds the report page and runs the official-data lookups.
