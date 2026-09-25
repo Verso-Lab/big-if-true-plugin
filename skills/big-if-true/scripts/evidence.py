@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """evidence.py — keyless lookups against the primary records fact-checks
 keep needing. Each subcommand prints a short, citable result and the
-exact URL queried. Stdlib only. No keys, except factcheck (a free one)
-and an optional one for courtlistener.
+exact URL queried. Stdlib only. No keys.
 
   wayback URL [--at YYYYMMDD]   nearest archived snapshot of a page (Internet Archive)
   wayback-save URL              ask the Internet Archive to capture a page now
@@ -12,8 +11,7 @@ and an optional one for courtlistener.
   arxiv "query"                 arXiv search: ids, titles, dates
   edgar "phrase" [--from DATE]  SEC full-text search of filings since 2001
   wikidata "name"               entity lookup: description, Wikidata id
-  factcheck "claim text"        Google Fact Check Tools (needs FACTCHECK_API_KEY)
-  courtlistener "query"         US court opinions (COURTLISTENER_API_KEY raises limits)
+  courtlistener "query"         US court opinions (anonymous access, rate-limited)
   blocked URL                   the browser could not read this page: record it and move on
   blocked URL --settled         …the claim was settled elsewhere; the page is no longer needed
   blocked URL --unreachable     …nothing a person could do would open it
@@ -37,7 +35,7 @@ def get(url, headers=None, retries=2):
         except Exception as e:  # noqa
             last = e
             time.sleep(2 * (i + 1))
-    # URLs carry API keys in the query and may carry logins; the exception text
+    # URLs may carry logins; the exception text
     # can echo the URL. Keep the host, the path and the HTTP status only.
     u = urllib.parse.urlsplit(url)
     sys.exit(f"fetch failed: {u.hostname}{u.path}\n  {type(last).__name__} {getattr(last, 'code', '')}".rstrip())
@@ -141,29 +139,12 @@ def cmd_wikidata(a):
     out(url, [f"{e['id']}  {e.get('label','')} — {e.get('description','')}" for e in d.get("search", [])] or ["no match"])
 
 
-def cmd_factcheck(a):
-    key = os.environ.get("FACTCHECK_API_KEY")
-    if not key:
-        sys.exit("needs FACTCHECK_API_KEY (free: console.cloud.google.com → Fact Check Tools API); "
-                 "or search by hand at https://toolbox.google.com/factcheck/explorer")
-    url = f"https://factchecktools.googleapis.com/v1alpha1/claims:search?query={q(a.claim)}&pageSize={a.n}&key={key}"
-    d = json.loads(get(url))
-    lines = []
-    for c in d.get("claims", []):
-        for r in c.get("claimReview", []):
-            lines.append(f"{r.get('reviewDate','')[:10]}  {r.get('publisher',{}).get('name','')}: {r.get('textualRating','')}\n"
-                         f"    claim: {c.get('text','')[:120]}\n    {r.get('url','')}")
-    out(url.replace(key, "<key>"), lines or ["no published fact-checks match"])
-
-
 def cmd_courtlistener(a):
-    key = os.environ.get("COURTLISTENER_API_KEY")
     url = f"https://www.courtlistener.com/api/rest/v4/search/?q={q(a.query)}&type=o"
-    h = {"Authorization": f"Token {key}"} if key else {}
-    d = json.loads(get(url, headers=h))
+    d = json.loads(get(url))
     lines = [f"{r.get('dateFiled','')}  {r.get('court','')}  {r.get('caseName','')}\n    https://www.courtlistener.com{r.get('absolute_url','')}"
              for r in d.get("results", [])[:a.n]]
-    out(url, lines or ["no results (anonymous access is rate-limited; a free key lifts it)"])
+    out(url, lines or ["no results (anonymous access is rate-limited; try again later)"])
 
 
 # The ledger lives in the working directory, next to source.txt and
@@ -211,7 +192,6 @@ def main():
     x = s.add_parser("arxiv"); x.add_argument("query"); x.set_defaults(f=cmd_arxiv)
     x = s.add_parser("edgar"); x.add_argument("phrase"); x.add_argument("--from", dest="frm", default="2001-01-01"); x.set_defaults(f=cmd_edgar)
     x = s.add_parser("wikidata"); x.add_argument("name"); x.add_argument("--lang", default="en"); x.set_defaults(f=cmd_wikidata)
-    x = s.add_parser("factcheck"); x.add_argument("claim"); x.set_defaults(f=cmd_factcheck)
     x = s.add_parser("courtlistener"); x.add_argument("query"); x.set_defaults(f=cmd_courtlistener)
     x = s.add_parser("blocked"); x.add_argument("url", nargs="?")
     for f in ("settled", "unreachable", "opened", "skipped", "no-browser"):

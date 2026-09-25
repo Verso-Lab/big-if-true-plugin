@@ -42,18 +42,14 @@ USDJPY=X, GBPUSD=X. `--field high` for the intraday high, `--range 1y`
 for a year. For yields prefer the official same-day feeds (Treasury,
 Bundesbank) and use the chart endpoint only for the intraday high.
 
-## Keys (optional, free, raise limits and use the documented endpoints)
+## Limits
 
-- `FRED_API_KEY` — free at fred.stlouisfed.org/docs/api/api_key.html.
-  With it, `fred` uses the `series/observations` API. Without it, the
-  script downloads the same CSV the "Download" button on every series
-  page serves, which works fine for a handful of pulls.
-- `EIA_API_KEY` — free at eia.gov/opendata. Without it the script uses
-  api.data.gov's shared `DEMO_KEY`, limited to 30 calls an hour and 50 a
-  day per IP address; a registered key gets 1,000 an hour.
-
-Everything else — Treasury XML and Fiscal Data, Bank of England, Bundesbank,
-ECB, Eurostat, OECD, Frankfurter — is open: no key, no account. Fiscal
+No source needs a key or an account. `fred` downloads the same CSV the
+"Download" button on every series page serves, which works fine for a
+handful of pulls. `eia` uses api.data.gov's public `DEMO_KEY`, limited to
+30 calls an hour and 50 a day per IP address. Treasury XML and Fiscal
+Data, Bank of England, Bundesbank, ECB, Eurostat, OECD and Frankfurter
+are open. Fiscal
 Data and OECD return HTTP 429 if hammered; a fact-check needs a handful
 of calls, well under any limit.
 

@@ -16,7 +16,7 @@ description: >-
   "fact-check." Requires web search; code execution builds the report page
   and runs the data lookups (falls back to a text report without it).
 metadata:
-  version: "0.7.0"
+  version: "0.7.1"
 ---
 
 # Big If True — editorial fact-checking
@@ -188,7 +188,7 @@ traps.
 |---|---|---|
 | Yields, indices, oil, FX, inflation, debt, GDP, "highest since" | `routes/markets-economy.md` | `scripts/marketdata.py` pulls the series; `--above VALUE` finds the last date above today's level, `--change DATE` the move since a baseline |
 | Who said what, when, where; titles and affiliations | `routes/quotes-attribution.md` | transcripts and recordings; the browser for video |
-| What a page or post showed; deleted content; images and video; "already debunked" | `routes/web-social-archives.md` | `scripts/evidence.py wayback`, `wayback-save`, `factcheck` (needs a free key); reverse image search in the browser |
+| What a page or post showed; deleted content; images and video; "already debunked" | `routes/web-social-archives.md` | `scripts/evidence.py wayback`, `wayback-save`; Google's Fact Check Explorer and reverse image search in the browser |
 | Studies, papers, trials, expert credentials | `routes/science-studies.md` | `scripts/evidence.py crossref`, `doi`, `pubmed`, `arxiv` |
 | Companies, filings, ownership, lawsuits, rulings, fines | `routes/companies-courts.md` | `scripts/evidence.py edgar`, `courtlistener`; registries in the browser |
 | Population, jobs, crime, migration, health, elections, budgets | `routes/official-statistics.md` | the producing office's release; World Bank / Eurostat APIs |

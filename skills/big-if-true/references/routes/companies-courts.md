@@ -31,7 +31,7 @@ public; the work is finding the right registry for the jurisdiction.
 ## Courts
 
 - **US federal:** `evidence.py courtlistener "party or phrase"` searches
-  opinions (free key lifts the rate limit); dockets and filings via
+  opinions (anonymous access is rate-limited); dockets and filings via
   CourtListener's RECAP archive, and PACER in the browser (the user's
   account, paid per page). Supreme Court: supremecourt.gov.
 - **US state:** each state's case search portal, browser; many are free.

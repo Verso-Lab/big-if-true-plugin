@@ -41,10 +41,10 @@ a login or a script wall, and fetch cannot see it.
 
 ## Has someone already checked this?
 
-- `evidence.py factcheck "claim"` queries Google's Fact Check Tools API
-  (free key); without a key, search toolbox.google.com/factcheck/explorer
-  in the browser. It aggregates ClaimReview from IFCN-signatory and other
-  fact-checkers worldwide, in many languages.
+- Search Google's Fact Check Explorer,
+  toolbox.google.com/factcheck/explorer, in the browser. It aggregates
+  ClaimReview from IFCN-signatory and other fact-checkers worldwide, in
+  many languages.
 - A prior fact-check is a strong lead and one source; read its evidence
   and cite the primary record it found, not the fact-check alone.
 

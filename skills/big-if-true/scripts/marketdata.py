@@ -7,9 +7,8 @@ asked, answers the two questions fact-checks keep needing:
   --above VALUE     last date the series exceeded VALUE ("highest since …")
   --change FROM     percent change from the FROM date's value to the latest
 
-No key is required. Two optional free keys raise limits and use the
-official endpoints: FRED_API_KEY (api.stlouisfed.org) and EIA_API_KEY
-(otherwise the shared DEMO_KEY: 30 calls/hour, 50/day per IP). Stdlib only.
+No key is required. EIA uses api.data.gov's public DEMO_KEY (30 calls/hour,
+50/day per IP). Stdlib only.
 
 Sources (see references/routes/markets-economy.md for series ids and caveats):
   fred SERIES              FRED (DGS10, DCOILBRENTEU, GDP, GFDEBTN, SP500 …)
@@ -24,7 +23,7 @@ Sources (see references/routes/markets-economy.md for series ids and caveats):
   eia SERIES               EIA daily spot (RBRTE = Brent, RWTC = WTI)
   usdebt                   US Treasury debt to the penny
 """
-import argparse, csv, datetime as dt, io, json, os, re, sys, time, urllib.parse, urllib.request
+import argparse, csv, datetime as dt, io, json, re, sys, time, urllib.parse, urllib.request
 
 UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36"}
 
@@ -41,7 +40,7 @@ def get(url, retries=2, sleep=3, browser_ua=True):
             last = e
             if i < retries:
                 time.sleep(sleep * (i + 1))
-    # URLs carry API keys in the query and may carry logins; the exception text
+    # URLs may carry logins; the exception text
     # can echo the URL. Keep the host, the path and the HTTP status only.
     u = urllib.parse.urlsplit(url)
     sys.exit(f"fetch failed: {u.hostname}{u.path}\n  {type(last).__name__} {getattr(last, 'code', '')}".rstrip())
@@ -58,17 +57,7 @@ def num(s):
 # ---------- sources: each returns (url, [(date_str, value)]) ----------
 
 def src_fred(a):
-    key = os.environ.get("FRED_API_KEY")
-    if key:
-        # Official API (docs: fred.stlouisfed.org/docs/api). Terms require the
-        # notice: "This product uses the FRED API but is not endorsed or
-        # certified by the Federal Reserve Bank of St. Louis."
-        url = (f"https://api.stlouisfed.org/fred/series/observations?series_id={a.series}"
-               f"&api_key={key}&file_type=json")
-        d = json.loads(get(url, browser_ua=False))
-        cite = url.replace(key, "<key>")
-        return cite, [(o["date"], num(o["value"])) for o in d["observations"] if num(o["value"]) is not None]
-    # Keyless fallback: the same CSV the "Download" button on every FRED
+    # The same CSV the "Download" button on every FRED
     # series page serves. Undocumented as an API; keep usage light.
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={a.series}"
     rows = list(csv.reader(io.StringIO(get(url, browser_ua=False))))[1:]
@@ -163,13 +152,12 @@ def src_fx(a):
 
 
 def src_eia(a):
-    key = os.environ.get("EIA_API_KEY", "DEMO_KEY")  # DEMO_KEY: 30/hour, 50/day per IP
-    url = (f"https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key={key}&frequency=daily"
+    # DEMO_KEY is api.data.gov's public key: 30 calls/hour, 50/day per IP.
+    url = ("https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=DEMO_KEY&frequency=daily"
            "&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=" + a.series +
            "&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=desc&length=" + str(a.n))
     d = json.loads(get(url))
-    cite = url.replace(key, "<key>") if key != "DEMO_KEY" else url
-    return cite, sorted((r["period"], num(r["value"])) for r in d["response"]["data"] if num(r["value"]) is not None)
+    return url, sorted((r["period"], num(r["value"])) for r in d["response"]["data"] if num(r["value"]) is not None)
 
 
 def src_usdebt(a):
